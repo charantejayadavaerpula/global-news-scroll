@@ -45,7 +45,7 @@ const Index: React.FC = () => {
   }, [loading]);
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-background">
       <Header />
       
       {/* News Feed */}
@@ -56,10 +56,10 @@ const Index: React.FC = () => {
         
         {/* Loading Indicator */}
         {loading && (
-          <div className="h-screen w-full flex items-center justify-center bg-gray-900 snap-start">
+          <div className="h-screen w-full flex items-center justify-center bg-muted snap-start">
             <div className="text-center">
-              <div className="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-white/80 text-lg">Loading more stories...</p>
+              <div className="w-12 h-12 border-4 border-muted-foreground/20 border-t-foreground rounded-full animate-spin mx-auto mb-4" />
+              <p className="text-muted-foreground text-lg">Loading more stories...</p>
             </div>
           </div>
         )}

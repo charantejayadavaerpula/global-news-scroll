@@ -1,12 +1,17 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { NewsArticle } from "@/types/news";
+import { Heart, Share, Bookmark, ChevronDown, ChevronUp } from "lucide-react";
 
 interface NewsCardProps {
   article: NewsArticle;
 }
 
 const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
+  const [isLiked, setIsLiked] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { 
@@ -17,39 +22,70 @@ const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
     });
   };
 
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: article.title,
+        text: article.content,
+        url: window.location.href,
+      });
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+    }
+  };
+
+  const truncatedContent = article.content.length > 150 
+    ? article.content.substring(0, 150) + "..."
+    : article.content;
+
   return (
-    <div className="h-screen w-full relative overflow-hidden snap-start">
-      {/* Background Image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${article.imageUrl})` }}
-      />
-      
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-      
-      {/* Content */}
-      <div className="relative z-10 h-full flex flex-col justify-end p-6 md:p-8 text-white">
+    <div className="h-screen w-full relative overflow-hidden snap-start bg-background">
+      {/* Top Half - Image */}
+      <div className="h-1/2 w-full relative">
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${article.imageUrl})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+        
         {/* Category Badge */}
-        <div className="mb-4">
-          <span className="inline-block px-3 py-1 text-xs font-medium bg-white/20 backdrop-blur-sm rounded-full">
+        <div className="absolute top-4 left-4 z-10">
+          <span className="inline-block px-3 py-1 text-xs font-medium bg-primary text-primary-foreground rounded-full">
             {article.category}
           </span>
         </div>
-        
+      </div>
+      
+      {/* Bottom Half - Content */}
+      <div className="h-1/2 w-full p-6 flex flex-col justify-between text-foreground">
         {/* Title */}
-        <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
+        <h1 className="text-xl md:text-2xl font-bold mb-3 leading-tight">
           {article.title}
         </h1>
         
         {/* Content */}
-        <p className="text-sm md:text-base lg:text-lg text-gray-200 mb-6 leading-relaxed line-clamp-4">
-          {article.content}
-        </p>
+        <div className="flex-1">
+          <p className="text-sm md:text-base text-muted-foreground mb-4 leading-relaxed">
+            {isExpanded ? article.content : truncatedContent}
+          </p>
+          
+          {article.content.length > 150 && (
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="text-primary text-sm font-medium flex items-center gap-1 mb-4"
+            >
+              {isExpanded ? (
+                <>Read Less <ChevronUp size={16} /></>
+              ) : (
+                <>Read More <ChevronDown size={16} /></>
+              )}
+            </button>
+          )}
+        </div>
         
         {/* Meta Information */}
-        <div className="flex items-center justify-between text-xs md:text-sm text-gray-300">
-          <div className="flex items-center space-x-4">
+        <div className="flex items-center justify-between text-xs text-muted-foreground mb-4">
+          <div className="flex items-center space-x-2">
             <span className="font-medium">{article.author}</span>
             <span>•</span>
             <span>{formatDate(article.publishedAt)}</span>
@@ -57,12 +93,40 @@ const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
             <span>{article.readTime} min read</span>
           </div>
         </div>
-      </div>
-      
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-4 right-6 z-20">
-        <div className="w-6 h-10 border border-white/30 rounded-full flex items-end justify-center p-1">
-          <div className="w-1 h-3 bg-white/50 rounded-full animate-pulse" />
+        
+        {/* Action Buttons */}
+        <div className="flex items-center justify-between pt-4 border-t border-border">
+          <button
+            onClick={() => setIsLiked(!isLiked)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors ${
+              isLiked 
+                ? 'text-red-500 bg-red-50 dark:bg-red-950' 
+                : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+            }`}
+          >
+            <Heart size={18} fill={isLiked ? "currentColor" : "none"} />
+            <span className="text-sm">Like</span>
+          </button>
+          
+          <button
+            onClick={handleShare}
+            className="flex items-center gap-2 px-4 py-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+          >
+            <Share size={18} />
+            <span className="text-sm">Share</span>
+          </button>
+          
+          <button
+            onClick={() => setIsSaved(!isSaved)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors ${
+              isSaved 
+                ? 'text-blue-500 bg-blue-50 dark:bg-blue-950' 
+                : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+            }`}
+          >
+            <Bookmark size={18} fill={isSaved ? "currentColor" : "none"} />
+            <span className="text-sm">Save</span>
+          </button>
         </div>
       </div>
     </div>
