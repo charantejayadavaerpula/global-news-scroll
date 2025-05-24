@@ -1,12 +1,69 @@
-// Update this page (the content is just a fallback if you fail to update the page)
 
-const Index = () => {
+import React, { useEffect, useState } from "react";
+import Header from "@/components/Header";
+import NewsCard from "@/components/NewsCard";
+import { mockNewsData } from "@/data/newsData";
+import { NewsArticle } from "@/types/news";
+
+const Index: React.FC = () => {
+  const [articles, setArticles] = useState<NewsArticle[]>(mockNewsData);
+  const [loading, setLoading] = useState(false);
+
+  // Simulate infinite scroll by loading more articles
+  const loadMoreArticles = () => {
+    if (loading) return;
+    
+    setLoading(true);
+    
+    // Simulate API call delay
+    setTimeout(() => {
+      const newArticles = mockNewsData.map((article, index) => ({
+        ...article,
+        id: `${article.id}-${Date.now()}-${index}`,
+      }));
+      
+      setArticles(prev => [...prev, ...newArticles]);
+      setLoading(false);
+    }, 1000);
+  };
+
+  // Handle scroll events for infinite loading
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      // Load more when user is near the bottom
+      if (scrollTop + windowHeight >= documentHeight - 1000 && !loading) {
+        loadMoreArticles();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [loading]);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-black">
+      <Header />
+      
+      {/* News Feed */}
+      <main className="snap-y snap-mandatory h-screen overflow-y-scroll">
+        {articles.map((article) => (
+          <NewsCard key={article.id} article={article} />
+        ))}
+        
+        {/* Loading Indicator */}
+        {loading && (
+          <div className="h-screen w-full flex items-center justify-center bg-gray-900 snap-start">
+            <div className="text-center">
+              <div className="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin mx-auto mb-4" />
+              <p className="text-white/80 text-lg">Loading more stories...</p>
+            </div>
+          </div>
+        )}
+      </main>
     </div>
   );
 };
