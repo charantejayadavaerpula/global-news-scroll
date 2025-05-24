@@ -38,15 +38,27 @@ const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
     ? article.content.substring(0, 150) + "..."
     : article.content;
 
+  const isVideo = article.imageUrl.includes('youtube.com') || article.imageUrl.includes('youtu.be');
+
   return (
     <div className="h-screen w-full relative overflow-hidden snap-start bg-background">
-      {/* Top Half - Image */}
+      {/* Top Half - Image or Video */}
       <div className="h-1/2 w-full relative">
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${article.imageUrl})` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+        {isVideo ? (
+          <iframe
+            className="w-full h-full object-cover"
+            src={article.imageUrl}
+            title={article.title}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        ) : (
+          <div 
+            className="w-full h-full bg-cover bg-center"
+            style={{ backgroundImage: `url(${article.imageUrl})` }}
+          />
+        )}
         
         {/* Category Badge */}
         <div className="absolute top-4 left-4 z-10">
