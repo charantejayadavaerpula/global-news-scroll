@@ -21,16 +21,18 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border">
       <div className="flex items-center justify-between p-2 md:p-3">
         {/* Logo */}
         <div 
           className="flex items-center space-x-2 cursor-pointer select-none"
           onClick={handleBrandDoubleClick}
         >
-          <div className="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">T</span>
-          </div>
+          <img 
+            src="/lovable-uploads/128e2bd0-a9d4-4322-96eb-025726e0392b.png" 
+            alt="Times Global Logo"
+            className="w-6 h-6"
+          />
           <h1 className="font-playfair text-lg md:text-xl font-bold text-foreground">
             Times Global
           </h1>

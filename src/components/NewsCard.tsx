@@ -1,16 +1,18 @@
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { NewsArticle } from "@/types/news";
 import { Heart, Share, Bookmark, ChevronDown, ChevronUp } from "lucide-react";
 
 interface NewsCardProps {
   article: NewsArticle;
+  isInView?: boolean;
 }
 
-const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
+const NewsCard: React.FC<NewsCardProps> = ({ article, isInView = true }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -40,14 +42,28 @@ const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
 
   const isVideo = article.imageUrl.includes('youtube.com') || article.imageUrl.includes('youtu.be');
 
+  // Pause video when not in view
+  useEffect(() => {
+    if (isVideo && iframeRef.current) {
+      if (!isInView) {
+        // Send pause command to YouTube iframe
+        iframeRef.current.contentWindow?.postMessage(
+          '{"event":"command","func":"pauseVideo","args":""}',
+          '*'
+        );
+      }
+    }
+  }, [isInView, isVideo]);
+
   return (
     <div className="h-screen w-full relative overflow-hidden snap-start bg-background">
       {/* Top Half - Image or Video */}
       <div className="h-1/2 w-full relative">
         {isVideo ? (
           <iframe
+            ref={iframeRef}
             className="w-full h-full object-cover"
-            src={article.imageUrl}
+            src={`${article.imageUrl}${article.imageUrl.includes('?') ? '&' : '?'}enablejsapi=1`}
             title={article.title}
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
