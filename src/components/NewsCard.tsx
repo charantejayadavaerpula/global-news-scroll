@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import { NewsArticle } from "@/types/news";
 import { Heart, Share, Bookmark, ChevronDown, ChevronUp } from "lucide-react";
@@ -13,6 +12,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ article, isInView = true }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const lastTapRef = useRef<number>(0);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -36,6 +36,23 @@ const NewsCard: React.FC<NewsCardProps> = ({ article, isInView = true }) => {
     }
   };
 
+  const handleLike = () => {
+    setIsLiked(!isLiked);
+  };
+
+  const handleDoubleTap = (e: React.TouchEvent | React.MouseEvent) => {
+    const currentTime = new Date().getTime();
+    const tapLength = currentTime - lastTapRef.current;
+    
+    if (tapLength < 500 && tapLength > 0) {
+      // Double tap detected
+      e.preventDefault();
+      handleLike();
+    }
+    
+    lastTapRef.current = currentTime;
+  };
+
   const truncatedContent = article.content.length > 150 
     ? article.content.substring(0, 150) + "..."
     : article.content;
@@ -56,7 +73,11 @@ const NewsCard: React.FC<NewsCardProps> = ({ article, isInView = true }) => {
   }, [isInView, isVideo]);
 
   return (
-    <div className="h-screen w-full relative overflow-hidden snap-start bg-background">
+    <div 
+      className="h-screen w-full relative overflow-hidden snap-start bg-background"
+      onTouchEnd={handleDoubleTap}
+      onDoubleClick={handleDoubleTap}
+    >
       {/* Top Half - Image or Video */}
       <div className="h-1/2 w-full relative">
         {isVideo ? (
@@ -125,7 +146,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ article, isInView = true }) => {
         {/* Action Buttons */}
         <div className="flex items-center justify-between pt-4 border-t border-border">
           <button
-            onClick={() => setIsLiked(!isLiked)}
+            onClick={handleLike}
             className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors ${
               isLiked 
                 ? 'text-red-500 bg-red-50 dark:bg-red-950' 
