@@ -121,5 +121,85 @@ export const mockNewsData: NewsArticle[] = [
     publishedAt: "2024-05-23T21:30:00Z",
     category: "Environment",
     readTime: 5
+  },
+  {
+    id: "13",
+    title: "Breakthrough in Neural Interface Technology Helps Paralyzed Patients Walk",
+    content: "A revolutionary brain-computer interface has enabled paralyzed patients to control robotic exoskeletons with their thoughts alone. The technology translates neural signals into movement commands, offering unprecedented mobility to individuals with spinal cord injuries. Clinical trials show remarkable success rates, with patients able to walk independently within weeks of receiving the implant.",
+    imageUrl: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=600&fit=crop",
+    author: "Dr. Neural Zhang",
+    publishedAt: "2024-05-23T20:15:00Z",
+    category: "Health",
+    readTime: 5
+  },
+  {
+    id: "14",
+    title: "Massive Ancient Library Discovered in Underground Cave System",
+    content: "Archaeologists have uncovered what appears to be the largest ancient library ever found, containing over 50,000 preserved scrolls and tablets. The discovery, made in a remote cave system, includes texts in multiple ancient languages and could rewrite our understanding of early civilizations. The preservation conditions are so exceptional that many documents remain completely readable after millennia.",
+    imageUrl: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=600&fit=crop",
+    author: "Prof. Ancient Scripts",
+    publishedAt: "2024-05-23T19:45:00Z",
+    category: "History",
+    readTime: 4
+  },
+  {
+    id: "15",
+    title: "Vertical Farming Revolution Solves Urban Food Security Crisis",
+    content: "Innovative vertical farming facilities are transforming urban agriculture, producing 10 times more food per square foot than traditional farming. These high-tech facilities use 95% less water and can operate year-round regardless of weather conditions. Major cities worldwide are implementing these systems to achieve food security and reduce their environmental footprint.",
+    imageUrl: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=800&h=600&fit=crop",
+    author: "Agricultural Innovation Team",
+    publishedAt: "2024-05-23T18:30:00Z",
+    category: "Technology",
+    readTime: 4
+  },
+  {
+    id: "16",
+    title: "Deep Sea Exploration Reveals New Species in Ocean Trenches",
+    content: "Marine researchers have discovered over 200 new species in the deepest parts of our oceans, including bioluminescent creatures that have evolved unique survival mechanisms. These findings suggest that deep ocean ecosystems are far more diverse than previously thought, with implications for understanding life's adaptability and potential for life on other planets.",
+    imageUrl: "https://www.youtube.com/embed/3mnsDsqKkBM",
+    author: "Marine Research Consortium",
+    publishedAt: "2024-05-23T17:20:00Z",
+    category: "Science",
+    readTime: 6
+  },
+  {
+    id: "17",
+    title: "Global Digital Currency System Launches Successfully",
+    content: "A new international digital currency system has been launched by a consortium of central banks, promising to revolutionize global trade and financial transactions. The system enables instant, secure transfers across borders while maintaining full regulatory compliance. Early adoption has exceeded expectations, with major corporations already integrating the new payment infrastructure.",
+    imageUrl: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&h=600&fit=crop",
+    author: "Financial Innovation Reporter",
+    publishedAt: "2024-05-23T16:10:00Z",
+    category: "Business",
+    readTime: 3
+  },
+  {
+    id: "18",
+    title: "Fusion Power Plant Achieves Net Energy Gain for First Time",
+    content: "Scientists at the International Fusion Research Facility have achieved the long-sought goal of net energy gain from nuclear fusion. The breakthrough represents a major milestone in clean energy technology, with the potential to provide unlimited, carbon-free power. Commercial fusion power plants could begin operation within the next two decades.",
+    imageUrl: "https://www.youtube.com/embed/A-W8-JZyRlY",
+    author: "Energy Physics Team",
+    publishedAt: "2024-05-23T15:00:00Z",
+    category: "Technology",
+    readTime: 5
+  },
+  {
+    id: "19",
+    title: "Traditional Crafts Experience Global Renaissance",
+    content: "Ancient crafting techniques are experiencing an unexpected revival as people seek authentic, handmade goods in an increasingly digital world. From Japanese pottery to European woodworking, traditional artisans are finding new markets and passing their skills to younger generations. This cultural movement is preserving centuries-old techniques while creating sustainable livelihoods.",
+    imageUrl: "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=800&h=600&fit=crop",
+    author: "Cultural Heritage Society",
+    publishedAt: "2024-05-23T14:30:00Z",
+    category: "Culture",
+    readTime: 4
+  },
+  {
+    id: "20",
+    title: "Wildlife Corridors Restore Endangered Species Populations",
+    content: "A global network of wildlife corridors connecting fragmented habitats has led to remarkable recoveries in endangered species populations. These green bridges and tunnels allow animals to move safely between protected areas, enabling genetic diversity and natural migration patterns. The project represents the largest conservation initiative in history.",
+    imageUrl: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop",
+    author: "Conservation Alliance",
+    publishedAt: "2024-05-23T13:15:00Z",
+    category: "Environment",
+    readTime: 4
   }
 ];

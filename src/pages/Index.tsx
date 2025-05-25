@@ -54,8 +54,8 @@ const Index: React.FC = () => {
     <div className="min-h-screen bg-background">
       <Header />
       
-      {/* News Feed */}
-      <main className="snap-y snap-mandatory h-screen overflow-y-scroll">
+      {/* News Feed with proper spacing from header */}
+      <main className="pt-16 snap-y snap-mandatory h-screen overflow-y-scroll">
         {articles.map((article, index) => (
           <NewsCard 
             key={article.id} 
