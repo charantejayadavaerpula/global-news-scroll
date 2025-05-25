@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from "react";
 import { NewsArticle } from "@/types/news";
 import { Heart, Share, Bookmark, ChevronDown, ChevronUp } from "lucide-react";
@@ -53,8 +54,10 @@ const NewsCard: React.FC<NewsCardProps> = ({ article, isInView = true }) => {
     lastTapRef.current = currentTime;
   };
 
-  const truncatedContent = article.content.length > 150 
-    ? article.content.substring(0, 150) + "..."
+  // Estimate 2 lines worth of text (approximately 120-140 characters)
+  const twoLinesLength = 120;
+  const truncatedContent = article.content.length > twoLinesLength 
+    ? article.content.substring(0, twoLinesLength) + "..."
     : article.content;
 
   const isVideo = article.imageUrl.includes('youtube.com') || article.imageUrl.includes('youtu.be');
@@ -114,11 +117,11 @@ const NewsCard: React.FC<NewsCardProps> = ({ article, isInView = true }) => {
         
         {/* Content */}
         <div className="flex-1">
-          <p className="text-sm md:text-base text-muted-foreground mb-4 leading-relaxed">
+          <p className={`text-sm md:text-base text-muted-foreground mb-4 leading-relaxed ${!isExpanded ? 'line-clamp-2' : ''}`}>
             {isExpanded ? article.content : truncatedContent}
           </p>
           
-          {article.content.length > 150 && (
+          {article.content.length > twoLinesLength && (
             <button
               onClick={() => setIsExpanded(!isExpanded)}
               className="text-primary text-sm font-medium flex items-center gap-1 mb-4"
