@@ -1,8 +1,13 @@
 
-
 import React, { useState, useRef, useEffect } from "react";
 import { NewsArticle } from "@/types/news";
-import { Heart, Share, Bookmark, ChevronDown, ChevronUp } from "lucide-react";
+import { Heart, Share, Bookmark, ChevronDown, ChevronUp, Languages } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface NewsCardProps {
   article: NewsArticle;
@@ -13,8 +18,22 @@ const NewsCard: React.FC<NewsCardProps> = ({ article, isInView = true }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState("English");
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const lastTapRef = useRef<number>(0);
+  const lastTapTimeRef = useRef<number>(0);
+
+  const languages = [
+    "English",
+    "Hindi",
+    "Spanish", 
+    "Telugu",
+    "Tamil",
+    "German",
+    "Japanese",
+    "Chinese",
+    "Korean",
+    "Arabic"
+  ];
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -43,16 +62,22 @@ const NewsCard: React.FC<NewsCardProps> = ({ article, isInView = true }) => {
   };
 
   const handleDoubleTap = (e: React.TouchEvent | React.MouseEvent) => {
-    const currentTime = new Date().getTime();
-    const tapLength = currentTime - lastTapRef.current;
+    const currentTime = Date.now();
+    const timeDiff = currentTime - lastTapTimeRef.current;
     
-    if (tapLength < 500 && tapLength > 0) {
+    if (timeDiff < 300 && timeDiff > 0) {
       // Double tap detected
       e.preventDefault();
       handleLike();
     }
     
-    lastTapRef.current = currentTime;
+    lastTapTimeRef.current = currentTime;
+  };
+
+  const handleLanguageChange = (language: string) => {
+    setSelectedLanguage(language);
+    console.log(`Translating to ${language}`);
+    // Here you would implement actual translation logic
   };
 
   // Estimate 2 lines worth of text (approximately 120-140 characters)
@@ -107,6 +132,35 @@ const NewsCard: React.FC<NewsCardProps> = ({ article, isInView = true }) => {
             {article.category}
           </span>
         </div>
+
+        {/* Language Translate Button */}
+        <div className="absolute top-4 right-4 z-10">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button 
+                className="flex items-center gap-1 px-3 py-1 text-xs font-medium bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Languages size={14} />
+                {selectedLanguage}
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-32">
+              {languages.map((language) => (
+                <DropdownMenuItem
+                  key={language}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleLanguageChange(language);
+                  }}
+                  className={selectedLanguage === language ? "bg-accent" : ""}
+                >
+                  {language}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
       
       {/* Bottom Half - Content */}
@@ -124,7 +178,10 @@ const NewsCard: React.FC<NewsCardProps> = ({ article, isInView = true }) => {
           
           {article.content.length > twoLinesLength && (
             <button
-              onClick={() => setIsExpanded(!isExpanded)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsExpanded(!isExpanded);
+              }}
               className="text-primary text-sm font-medium flex items-center gap-1 mb-4"
             >
               {isExpanded ? (
