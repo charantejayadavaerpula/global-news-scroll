@@ -1,4 +1,5 @@
 
+
 import React, { useState, useRef, useEffect } from "react";
 import { NewsArticle } from "@/types/news";
 import { Heart, Share, Bookmark, ChevronDown, ChevronUp } from "lucide-react";
@@ -77,7 +78,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ article, isInView = true }) => {
 
   return (
     <div 
-      className="h-screen w-full relative overflow-hidden snap-start bg-background"
+      className="h-screen w-full relative overflow-hidden snap-start bg-background cursor-pointer select-none"
       onTouchEnd={handleDoubleTap}
       onDoubleClick={handleDoubleTap}
     >
@@ -149,10 +150,13 @@ const NewsCard: React.FC<NewsCardProps> = ({ article, isInView = true }) => {
         {/* Action Buttons */}
         <div className="flex items-center justify-between pt-4 border-t border-border">
           <button
-            onClick={handleLike}
-            className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors ${
+            onClick={(e) => {
+              e.stopPropagation();
+              handleLike();
+            }}
+            className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
               isLiked 
-                ? 'text-red-500 bg-red-50 dark:bg-red-950' 
+                ? 'text-red-500 bg-red-100 dark:bg-red-900/30 scale-105' 
                 : 'text-muted-foreground hover:text-foreground hover:bg-accent'
             }`}
           >
@@ -161,7 +165,10 @@ const NewsCard: React.FC<NewsCardProps> = ({ article, isInView = true }) => {
           </button>
           
           <button
-            onClick={handleShare}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleShare();
+            }}
             className="flex items-center gap-2 px-4 py-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
           >
             <Share size={18} />
@@ -169,7 +176,10 @@ const NewsCard: React.FC<NewsCardProps> = ({ article, isInView = true }) => {
           </button>
           
           <button
-            onClick={() => setIsSaved(!isSaved)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsSaved(!isSaved);
+            }}
             className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors ${
               isSaved 
                 ? 'text-blue-500 bg-blue-50 dark:bg-blue-950' 

@@ -22,6 +22,7 @@ export default {
 			fontFamily: {
 				'playfair': ['Playfair Display', 'serif'],
 				'inter': ['Inter', 'sans-serif'],
+				'trebuchet': ['Trebuchet MS', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
