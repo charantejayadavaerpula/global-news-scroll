@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from "react";
 import { NewsArticle } from "@/types/news";
 import { Heart, Share, Bookmark, ChevronDown, ChevronUp, Languages } from "lucide-react";
@@ -131,6 +132,33 @@ const NewsCard: React.FC<NewsCardProps> = ({
         </div>
       </div>
       
+      {/* Action Buttons - Moved below image */}
+      <div className="flex items-center justify-between px-6 py-3 border-b border-border">
+        <button onClick={e => {
+          e.stopPropagation();
+          handleLike();
+        }} className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${isLiked ? 'text-red-500 bg-red-100 dark:bg-red-900/30 scale-105' : 'text-muted-foreground hover:text-foreground hover:bg-accent'}`}>
+          <Heart size={18} fill={isLiked ? "currentColor" : "none"} />
+          <span className="text-sm">Like</span>
+        </button>
+        
+        <button onClick={e => {
+          e.stopPropagation();
+          handleShare();
+        }} className="flex items-center gap-2 px-4 py-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors">
+          <Share size={18} />
+          <span className="text-sm">Share</span>
+        </button>
+        
+        <button onClick={e => {
+          e.stopPropagation();
+          setIsSaved(!isSaved);
+        }} className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors ${isSaved ? 'text-blue-500 bg-blue-50 dark:bg-blue-950' : 'text-muted-foreground hover:text-foreground hover:bg-accent'}`}>
+          <Bookmark size={18} fill={isSaved ? "currentColor" : "none"} />
+          <span className="text-sm">Save</span>
+        </button>
+      </div>
+      
       {/* Bottom Half - Content */}
       <div className="h-1/2 w-full p-6 flex flex-col justify-between text-foreground">
         {/* Title */}
@@ -159,7 +187,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
         </div>
         
         {/* Meta Information */}
-        <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
           <div className="flex items-center space-x-2">
             <span className="font-medium">{article.author}</span>
             <span>•</span>
@@ -167,33 +195,6 @@ const NewsCard: React.FC<NewsCardProps> = ({
             <span>•</span>
             <span>{article.readTime} min read</span>
           </div>
-        </div>
-        
-        {/* Action Buttons */}
-        <div className="flex items-center justify-between pt-2 border-t border-border">
-          <button onClick={e => {
-            e.stopPropagation();
-            handleLike();
-          }} className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${isLiked ? 'text-red-500 bg-red-100 dark:bg-red-900/30 scale-105' : 'text-muted-foreground hover:text-foreground hover:bg-accent'}`}>
-            <Heart size={18} fill={isLiked ? "currentColor" : "none"} />
-            <span className="text-sm">Like</span>
-          </button>
-          
-          <button onClick={e => {
-            e.stopPropagation();
-            handleShare();
-          }} className="flex items-center gap-2 px-4 py-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors">
-            <Share size={18} />
-            <span className="text-sm">Share</span>
-          </button>
-          
-          <button onClick={e => {
-            e.stopPropagation();
-            setIsSaved(!isSaved);
-          }} className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors ${isSaved ? 'text-blue-500 bg-blue-50 dark:bg-blue-950' : 'text-muted-foreground hover:text-foreground hover:bg-accent'}`}>
-            <Bookmark size={18} fill={isSaved ? "currentColor" : "none"} />
-            <span className="text-sm">Save</span>
-          </button>
         </div>
       </div>
     </div>
