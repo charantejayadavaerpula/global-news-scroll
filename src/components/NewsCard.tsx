@@ -2,10 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 import { NewsArticle } from "@/types/news";
 import { Heart, Share, Bookmark, ChevronDown, ChevronUp, Languages } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+
 interface NewsCardProps {
   article: NewsArticle;
   isInView?: boolean;
 }
+
 const NewsCard: React.FC<NewsCardProps> = ({
   article,
   isInView = true
@@ -17,6 +19,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const lastTapTimeRef = useRef<number>(0);
   const languages = ["English", "Hindi", "Spanish", "Telugu", "Tamil", "German", "Japanese", "Chinese", "Korean", "Arabic"];
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -26,6 +29,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
       minute: '2-digit'
     });
   };
+
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
@@ -37,9 +41,11 @@ const NewsCard: React.FC<NewsCardProps> = ({
       navigator.clipboard.writeText(window.location.href);
     }
   };
+
   const handleLike = () => {
     setIsLiked(!isLiked);
   };
+
   const handleDoubleTap = (e: React.TouchEvent | React.MouseEvent) => {
     const currentTime = Date.now();
     const timeDiff = currentTime - lastTapTimeRef.current;
@@ -50,6 +56,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
     }
     lastTapTimeRef.current = currentTime;
   };
+
   const handleLanguageChange = (language: string) => {
     setSelectedLanguage(language);
     console.log(`Translating to ${language}`);
@@ -70,12 +77,29 @@ const NewsCard: React.FC<NewsCardProps> = ({
       }
     }
   }, [isInView, isVideo]);
-  return <div className="h-screen w-full relative overflow-hidden snap-start bg-background cursor-pointer select-none" onTouchEnd={handleDoubleTap} onDoubleClick={handleDoubleTap}>
+
+  return (
+    <div className="h-screen w-full relative overflow-hidden snap-start bg-background cursor-pointer select-none" onTouchEnd={handleDoubleTap} onDoubleClick={handleDoubleTap}>
       {/* Top Half - Image or Video */}
       <div className="h-1/2 w-full relative">
-        {isVideo ? <iframe ref={iframeRef} className="w-full h-full object-cover" src={`${article.imageUrl}${article.imageUrl.includes('?') ? '&' : '?'}enablejsapi=1`} title={article.title} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen /> : <div style={{
-        backgroundImage: `url(${article.imageUrl})`
-      }} className="w-full h-full bg-cover bg-center my-[41px]" />}
+        {isVideo ? (
+          <iframe 
+            ref={iframeRef} 
+            className="w-full h-full object-cover" 
+            src={`${article.imageUrl}${article.imageUrl.includes('?') ? '&' : '?'}enablejsapi=1`} 
+            title={article.title} 
+            frameBorder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowFullScreen 
+          />
+        ) : (
+          <div 
+            style={{
+              backgroundImage: `url(${article.imageUrl})`
+            }} 
+            className="w-full h-full bg-cover bg-center my-[41px]" 
+          />
+        )}
         
         {/* Category Badge */}
         <div className="absolute top-4 left-4 z-10">
@@ -94,12 +118,14 @@ const NewsCard: React.FC<NewsCardProps> = ({
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-32">
-              {languages.map(language => <DropdownMenuItem key={language} onClick={e => {
-              e.stopPropagation();
-              handleLanguageChange(language);
-            }} className={selectedLanguage === language ? "bg-accent" : ""}>
+              {languages.map(language => (
+                <DropdownMenuItem key={language} onClick={e => {
+                  e.stopPropagation();
+                  handleLanguageChange(language);
+                }} className={selectedLanguage === language ? "bg-accent" : ""}>
                   {language}
-                </DropdownMenuItem>)}
+                </DropdownMenuItem>
+              ))}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -114,20 +140,26 @@ const NewsCard: React.FC<NewsCardProps> = ({
         
         {/* Content */}
         <div className="flex-1 mx-0 px-0">
-          <p className={`text-sm md:text-base text-muted-foreground mb-4 leading-relaxed ${!isExpanded ? 'line-clamp-2' : ''}`}>
+          <p className={`text-sm md:text-base text-muted-foreground mb-2 leading-relaxed ${!isExpanded ? 'line-clamp-2' : ''}`}>
             {isExpanded ? article.content : truncatedContent}
           </p>
           
-          {article.content.length > twoLinesLength && <button onClick={e => {
-          e.stopPropagation();
-          setIsExpanded(!isExpanded);
-        }} className="text-primary text-sm font-medium flex items-center gap-1 mb-2">
-              {isExpanded ? <>Read Less <ChevronUp size={16} /></> : <>Read More <ChevronDown size={16} /></>}
-            </button>}
+          {article.content.length > twoLinesLength && (
+            <button onClick={e => {
+              e.stopPropagation();
+              setIsExpanded(!isExpanded);
+            }} className="text-primary text-sm font-medium flex items-center gap-1 mb-2">
+              {isExpanded ? (
+                <>Read Less <ChevronUp size={16} /></>
+              ) : (
+                <>Read More <ChevronDown size={16} /></>
+              )}
+            </button>
+          )}
         </div>
         
         {/* Meta Information */}
-        <div className="flex items-center justify-between text-xs text-muted-foreground mb-4">
+        <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
           <div className="flex items-center space-x-2">
             <span className="font-medium">{article.author}</span>
             <span>•</span>
@@ -138,32 +170,34 @@ const NewsCard: React.FC<NewsCardProps> = ({
         </div>
         
         {/* Action Buttons */}
-        <div className="flex items-center justify-between pt-4 border-t border-border">
+        <div className="flex items-center justify-between pt-2 border-t border-border">
           <button onClick={e => {
-          e.stopPropagation();
-          handleLike();
-        }} className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${isLiked ? 'text-red-500 bg-red-100 dark:bg-red-900/30 scale-105' : 'text-muted-foreground hover:text-foreground hover:bg-accent'}`}>
+            e.stopPropagation();
+            handleLike();
+          }} className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${isLiked ? 'text-red-500 bg-red-100 dark:bg-red-900/30 scale-105' : 'text-muted-foreground hover:text-foreground hover:bg-accent'}`}>
             <Heart size={18} fill={isLiked ? "currentColor" : "none"} />
             <span className="text-sm">Like</span>
           </button>
           
           <button onClick={e => {
-          e.stopPropagation();
-          handleShare();
-        }} className="flex items-center gap-2 px-4 py-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors">
+            e.stopPropagation();
+            handleShare();
+          }} className="flex items-center gap-2 px-4 py-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors">
             <Share size={18} />
             <span className="text-sm">Share</span>
           </button>
           
           <button onClick={e => {
-          e.stopPropagation();
-          setIsSaved(!isSaved);
-        }} className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors ${isSaved ? 'text-blue-500 bg-blue-50 dark:bg-blue-950' : 'text-muted-foreground hover:text-foreground hover:bg-accent'}`}>
+            e.stopPropagation();
+            setIsSaved(!isSaved);
+          }} className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors ${isSaved ? 'text-blue-500 bg-blue-50 dark:bg-blue-950' : 'text-muted-foreground hover:text-foreground hover:bg-accent'}`}>
             <Bookmark size={18} fill={isSaved ? "currentColor" : "none"} />
             <span className="text-sm">Save</span>
           </button>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default NewsCard;
