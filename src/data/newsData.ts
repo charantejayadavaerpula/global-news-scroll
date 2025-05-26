@@ -1,4 +1,3 @@
-
 import { NewsArticle } from "@/types/news";
 
 export const mockNewsData: NewsArticle[] = [
@@ -201,5 +200,105 @@ export const mockNewsData: NewsArticle[] = [
     publishedAt: "2024-05-23T13:15:00Z",
     category: "Environment",
     readTime: 4
+  },
+  {
+    id: "21",
+    title: "Virtual Reality Education Transforms Learning Experiences Worldwide",
+    content: "Educational institutions across the globe are adopting immersive VR technology to revolutionize traditional learning methods. Students can now explore ancient Rome, walk through the human circulatory system, or conduct virtual chemistry experiments in complete safety. Early studies show 40% improvement in retention rates and significantly higher student engagement levels compared to traditional teaching methods.",
+    imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=600&fit=crop",
+    author: "Education Tech Specialist",
+    publishedAt: "2024-05-23T12:45:00Z",
+    category: "Technology",
+    readTime: 4
+  },
+  {
+    id: "22",
+    title: "Autonomous Drone Network Delivers Medicine to Remote Areas",
+    content: "A revolutionary autonomous drone delivery system has successfully transported critical medical supplies to isolated communities in challenging terrains. The AI-powered drones can navigate through extreme weather conditions and deliver life-saving medications within hours instead of days. This technology is particularly transformative for emergency medical situations in areas previously inaccessible by traditional transport.",
+    imageUrl: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=600&fit=crop",
+    author: "Medical Logistics Pioneer",
+    publishedAt: "2024-05-23T11:30:00Z",
+    category: "Health",
+    readTime: 5
+  },
+  {
+    id: "23",
+    title: "Sustainable Architecture Movement Reshapes Urban Landscapes",
+    content: "Cities worldwide are embracing innovative sustainable architecture that integrates living walls, solar technology, and natural ventilation systems. These eco-friendly buildings not only reduce energy consumption by up to 70% but also improve air quality and provide urban biodiversity habitats. The movement represents a fundamental shift toward creating cities that work in harmony with nature.",
+    imageUrl: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=600&fit=crop",
+    author: "Sustainable Design Collective",
+    publishedAt: "2024-05-23T10:15:00Z",
+    category: "Environment",
+    readTime: 4
+  },
+  {
+    id: "24",
+    title: "Blockchain Technology Revolutionizes Supply Chain Transparency",
+    content: "Major corporations are implementing blockchain-based supply chain management systems that provide unprecedented transparency from production to consumer. This technology enables real-time tracking of products, verification of ethical sourcing, and immediate identification of quality issues. Consumers can now scan a simple QR code to see the complete journey of their purchases, revolutionizing trust in global commerce.",
+    imageUrl: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&h=600&fit=crop",
+    author: "Supply Chain Innovation Expert",
+    publishedAt: "2024-05-23T09:20:00Z",
+    category: "Business",
+    readTime: 5
+  },
+  {
+    id: "25",
+    title: "Ancient DNA Research Unlocks Secrets of Human Migration",
+    content: "Groundbreaking research using ancient DNA samples has revealed new insights into human migration patterns spanning over 100,000 years. Scientists have successfully reconstructed the genetic history of various populations, discovering previously unknown migration routes and interbreeding events between early human species. These findings are rewriting our understanding of human evolution and the peopling of different continents.",
+    imageUrl: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&h=600&fit=crop",
+    author: "Genetic Anthropology Team",
+    publishedAt: "2024-05-23T08:45:00Z",
+    category: "Science",
+    readTime: 6
+  },
+  {
+    id: "26",
+    title: "Community-Based Renewable Energy Networks Empower Local Economies",
+    content: "Grassroots renewable energy cooperatives are transforming rural communities by enabling residents to generate, store, and trade clean energy locally. These microgrids provide energy independence, create local jobs, and generate revenue that stays within the community. The model is being replicated globally, demonstrating how sustainable energy can drive economic empowerment at the community level.",
+    imageUrl: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop",
+    author: "Community Energy Advocate",
+    publishedAt: "2024-05-23T07:30:00Z",
+    category: "Environment",
+    readTime: 4
+  },
+  {
+    id: "27",
+    title: "AI-Powered Mental Health Support Reaches Underserved Populations",
+    content: "Innovative AI chatbots and virtual therapy platforms are providing 24/7 mental health support to millions who previously lacked access to professional care. These systems use advanced natural language processing to provide cognitive behavioral therapy techniques, crisis intervention, and emotional support. Studies show significant improvements in anxiety and depression scores among users in underserved communities.",
+    imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop",
+    author: "Digital Health Researcher",
+    publishedAt: "2024-05-23T06:15:00Z",
+    category: "Health",
+    readTime: 5
+  },
+  {
+    id: "28",
+    title: "Digital Art Revolution Creates New Economic Opportunities for Artists",
+    content: "The rise of digital art platforms and NFT marketplaces has created unprecedented opportunities for artists to monetize their creativity directly. Traditional barriers between artists and collectors are dissolving as creators can now reach global audiences instantly. This digital renaissance is not only transforming how art is created and distributed but also establishing new forms of artistic expression unique to the digital medium.",
+    imageUrl: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=800&h=600&fit=crop",
+    author: "Digital Arts Commentator",
+    publishedAt: "2024-05-23T05:00:00Z",
+    category: "Culture",
+    readTime: 4
+  },
+  {
+    id: "29",
+    title: "Smart Cities Initiative Reduces Traffic Congestion by 60%",
+    content: "Cities implementing comprehensive smart traffic management systems have achieved remarkable reductions in congestion and emissions. Using AI-powered traffic lights, real-time route optimization, and integrated public transportation systems, these urban centers are creating more livable environments for their residents. The success has prompted a global movement toward intelligent urban planning and infrastructure development.",
+    imageUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&h=600&fit=crop",
+    author: "Urban Planning Institute",
+    publishedAt: "2024-05-23T04:30:00Z",
+    category: "Technology",
+    readTime: 5
+  },
+  {
+    id: "30",
+    title: "Archaeological AI Discovers Lost Mayan Cities in Dense Jungle",
+    content: "Artificial intelligence analysis of satellite imagery has revealed dozens of previously unknown Mayan settlements hidden beneath dense jungle canopies. This technology can identify subtle landscape features that indicate human habitation, revolutionizing archaeological discovery methods. The findings suggest that ancient Mayan civilization was far more extensive and sophisticated than previously understood, with complex urban networks spanning vast areas.",
+    imageUrl: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=600&fit=crop",
+    author: "Archaeological AI Consortium",
+    publishedAt: "2024-05-23T03:45:00Z",
+    category: "History",
+    readTime: 6
   }
 ];
