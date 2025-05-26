@@ -22,7 +22,7 @@ const Header: React.FC = () => {
   return <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
       <div className="flex items-center justify-between p-2 md:p-3">
         {/* Logo */}
-        <div onClick={handleBrandDoubleClick} className="flex items-center space-x-3 cursor-pointer select-none mx-[99px]">
+        <div onClick={handleBrandDoubleClick} className="flex items-center space-x-3 cursor-pointer select-none mx-0">
           
           <h1 className="font-playfair text-lg md:text-xl font-bold text-foreground tracking-wide">
             Times Global
