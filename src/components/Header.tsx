@@ -27,7 +27,7 @@ const Header: React.FC = () => {
           <h1 className="font-playfair text-lg md:text-xl font-bold text-foreground tracking-wide">
             Times Global
           </h1>
-          <img src="/lovable-uploads/76b65860-4d05-47e0-a7d1-2a52286a1e4e.png" alt="Verification Badge" className="w-4 h-4" />
+          <img alt="Verification Badge" src="https://cdn-icons-gif.flaticon.com/14822/14822327.gif" className="w-5 h-5" />
         </div>
         
         {/* Navigation */}
