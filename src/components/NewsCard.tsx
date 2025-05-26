@@ -2,10 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 import { NewsArticle } from "@/types/news";
 import { Heart, Share, Bookmark, ChevronDown, ChevronUp, Languages } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+
 interface NewsCardProps {
   article: NewsArticle;
   isInView?: boolean;
 }
+
 const NewsCard: React.FC<NewsCardProps> = ({
   article,
   isInView = true
@@ -17,6 +19,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const lastTapTimeRef = useRef<number>(0);
   const languages = ["English", "Hindi", "Spanish", "Telugu", "Tamil", "German", "Japanese", "Chinese", "Korean", "Arabic"];
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -26,6 +29,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
       minute: '2-digit'
     });
   };
+
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
@@ -37,9 +41,11 @@ const NewsCard: React.FC<NewsCardProps> = ({
       navigator.clipboard.writeText(window.location.href);
     }
   };
+
   const handleLike = () => {
     setIsLiked(!isLiked);
   };
+
   const handleDoubleTap = (e: React.TouchEvent | React.MouseEvent) => {
     const currentTime = Date.now();
     const timeDiff = currentTime - lastTapTimeRef.current;
@@ -50,6 +56,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
     }
     lastTapTimeRef.current = currentTime;
   };
+
   const handleLanguageChange = (language: string) => {
     setSelectedLanguage(language);
     console.log(`Translating to ${language}`);
@@ -70,6 +77,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
       }
     }
   }, [isInView, isVideo]);
+
   return <div className="h-screen w-full relative overflow-hidden snap-start bg-background cursor-pointer select-none" onTouchEnd={handleDoubleTap} onDoubleClick={handleDoubleTap}>
       {/* Top Half - Image or Video */}
       <div className="h-1/2 w-full relative">
@@ -121,7 +129,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
           {article.content.length > twoLinesLength && <button onClick={e => {
           e.stopPropagation();
           setIsExpanded(!isExpanded);
-        }} className="text-primary text-sm font-medium flex items-center gap-1 mb-4">
+        }} className="text-primary text-sm font-medium flex items-center gap-1 mb-2">
               {isExpanded ? <>Read Less <ChevronUp size={16} /></> : <>Read More <ChevronDown size={16} /></>}
             </button>}
         </div>
@@ -166,4 +174,5 @@ const NewsCard: React.FC<NewsCardProps> = ({
       </div>
     </div>;
 };
+
 export default NewsCard;
