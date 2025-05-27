@@ -1,14 +1,11 @@
-
 import React, { useState } from "react";
 import { useTheme } from "./ThemeProvider";
-
 const Header: React.FC = () => {
   const {
     setTheme,
     theme
   } = useTheme();
   const [tapCount, setTapCount] = useState(0);
-  
   const handleBrandDoubleClick = () => {
     setTapCount(prev => prev + 1);
 
@@ -22,14 +19,12 @@ const Header: React.FC = () => {
       setTapCount(0);
     }, 300);
   };
-
-  return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
-      <div className="flex items-center justify-between p-2 md:p-3 relative">
+  return <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+      <div className="flex items-center justify-between p-0 md:p-0 relative">
         {/* Logo and Brand Name - Stacked Vertically on Left */}
         <div className="flex items-center space-x-3">
           <div onClick={handleBrandDoubleClick} className="flex flex-col items-center space-y-1 cursor-pointer select-none">
-            <img alt="Brand Logo" className="w-8 h-8" src="https://cdn-icons-png.flaticon.com/128/1444/1444890.png" />
+            <img alt="Brand Logo" src="https://cdn-icons-png.flaticon.com/128/1444/1444890.png" className="w-0 h-0" />
             <h1 className="font-playfair text-lg md:text-xl font-bold text-foreground tracking-wide">
               Times Global
             </h1>
@@ -62,8 +57,6 @@ const Header: React.FC = () => {
           </button>
         </div>
       </div>
-    </header>
-  );
+    </header>;
 };
-
 export default Header;
