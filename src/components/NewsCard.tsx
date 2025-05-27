@@ -129,7 +129,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
             <CarouselNext className="right-4" />
           </Carousel> : <div style={{
         backgroundImage: `url(${article.imageUrl})`
-      }} className="w-full h-full bg-cover bg-center" />}
+      }} className="w-full h-full bg-cover bg-center my-[41px]" />}
         
         {/* Category Badge */}
         <div className="absolute top-4 left-4 z-10">
