@@ -1,8 +1,8 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import { NewsArticle } from "@/types/news";
 import { Heart, Share, Bookmark, ChevronDown, ChevronUp, Languages } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useTranslation } from "@/contexts/TranslationContext";
 import { useTranslatedText } from "@/hooks/useTranslatedText";
 
@@ -76,12 +76,30 @@ const NewsCard: React.FC<NewsCardProps> = ({
     console.log(`Translating to ${language}`);
   };
 
-  // Estimate 2 lines worth of text (approximately 120-140 characters)
   const twoLinesLength = 120;
   const truncatedContent = translatedContent.length > twoLinesLength ? translatedContent.substring(0, twoLinesLength) + "..." : translatedContent;
   const isVideo = article.imageUrl.includes('youtube.com') || article.imageUrl.includes('youtu.be');
 
-  // Pause video when not in view
+  // Create multiple images for demonstration (some articles will have multiple images)
+  const getArticleImages = () => {
+    const baseImages = [article.imageUrl];
+    
+    // Add multiple images for certain articles to demonstrate horizontal scroll
+    if (article.id === "1" || article.id === "3" || article.id === "5") {
+      const additionalImages = [
+        "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&h=600&fit=crop",
+        "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop",
+        "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=600&fit=crop"
+      ];
+      return [...baseImages, ...additionalImages];
+    }
+    
+    return baseImages;
+  };
+
+  const articleImages = getArticleImages();
+  const hasMultipleImages = articleImages.length > 1;
+
   useEffect(() => {
     if (isVideo && iframeRef.current) {
       if (!isInView) {
@@ -105,12 +123,29 @@ const NewsCard: React.FC<NewsCardProps> = ({
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
             allowFullScreen 
           />
+        ) : hasMultipleImages ? (
+          <Carousel className="w-full h-full">
+            <CarouselContent className="h-full">
+              {articleImages.map((imageUrl, index) => (
+                <CarouselItem key={index} className="h-full">
+                  <div 
+                    style={{
+                      backgroundImage: `url(${imageUrl})`
+                    }} 
+                    className="w-full h-full bg-cover bg-center" 
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-4" />
+            <CarouselNext className="right-4" />
+          </Carousel>
         ) : (
           <div 
             style={{
               backgroundImage: `url(${article.imageUrl})`
             }} 
-            className="w-full h-full bg-cover bg-center my-[41px]" 
+            className="w-full h-full bg-cover bg-center" 
           />
         )}
         
@@ -144,7 +179,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
         </div>
       </div>
       
-      {/* Action Buttons - Moved below image */}
+      {/* Action Buttons - Below image, above text */}
       <div className="flex items-center justify-between px-6 py-3 border-b border-border">
         <button onClick={e => {
           e.stopPropagation();
