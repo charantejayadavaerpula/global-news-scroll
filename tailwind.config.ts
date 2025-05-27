@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -23,6 +22,7 @@ export default {
 				'playfair': ['Playfair Display', 'serif'],
 				'inter': ['Inter', 'sans-serif'],
 				'trebuchet': ['Trebuchet MS', 'sans-serif'],
+				'audiowide': ['Audiowide', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
