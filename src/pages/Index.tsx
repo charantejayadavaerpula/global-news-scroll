@@ -1,16 +1,17 @@
-
 import React, { useEffect, useState, useCallback } from "react";
 import Header from "@/components/Header";
 import NewsCard from "@/components/NewsCard";
 import { mockNewsData } from "@/data/newsData";
 import { NewsArticle } from "@/types/news";
+import { useTranslatedText } from "@/hooks/useTranslatedText";
 
 const Index: React.FC = () => {
   const [articles, setArticles] = useState<NewsArticle[]>(mockNewsData);
   const [loading, setLoading] = useState(false);
   const [currentArticleIndex, setCurrentArticleIndex] = useState(0);
+  const { translatedText: loadingText } = useTranslatedText("Loading more stories...");
 
-  // Simulate infinite scroll by loading more articles
+  // ... keep existing code (loadMoreArticles, handleScroll, useEffect)
   const loadMoreArticles = () => {
     if (loading) return;
     
@@ -69,7 +70,7 @@ const Index: React.FC = () => {
           <div className="h-screen w-full flex items-center justify-center bg-muted snap-start">
             <div className="text-center">
               <div className="w-12 h-12 border-4 border-muted-foreground/20 border-t-foreground rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-muted-foreground text-lg">Loading more stories...</p>
+              <p className="text-muted-foreground text-lg">{loadingText}</p>
             </div>
           </div>
         )}

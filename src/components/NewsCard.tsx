@@ -3,6 +3,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { NewsArticle } from "@/types/news";
 import { Heart, Share, Bookmark, ChevronDown, ChevronUp, Languages } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { useTranslation } from "@/contexts/TranslationContext";
+import { useTranslatedText } from "@/hooks/useTranslatedText";
 
 interface NewsCardProps {
   article: NewsArticle;
@@ -16,10 +18,21 @@ const NewsCard: React.FC<NewsCardProps> = ({
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("English");
+  const { currentLanguage, setCurrentLanguage } = useTranslation();
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const lastTapTimeRef = useRef<number>(0);
   const languages = ["English", "Hindi", "Spanish", "Telugu", "Tamil", "German", "Japanese", "Chinese", "Korean", "Arabic"];
+
+  // Translate all text content
+  const { translatedText: translatedTitle } = useTranslatedText(article.title);
+  const { translatedText: translatedContent } = useTranslatedText(article.content);
+  const { translatedText: translatedCategory } = useTranslatedText(article.category);
+  const { translatedText: likeText } = useTranslatedText("Like");
+  const { translatedText: shareText } = useTranslatedText("Share");
+  const { translatedText: saveText } = useTranslatedText("Save");
+  const { translatedText: readMoreText } = useTranslatedText("Read More");
+  const { translatedText: readLessText } = useTranslatedText("Read Less");
+  const { translatedText: minReadText } = useTranslatedText("min read");
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -34,8 +47,8 @@ const NewsCard: React.FC<NewsCardProps> = ({
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: article.title,
-        text: article.content,
+        title: translatedTitle,
+        text: translatedContent,
         url: window.location.href
       });
     } else {
@@ -59,14 +72,13 @@ const NewsCard: React.FC<NewsCardProps> = ({
   };
 
   const handleLanguageChange = (language: string) => {
-    setSelectedLanguage(language);
+    setCurrentLanguage(language);
     console.log(`Translating to ${language}`);
-    // Here you would implement actual translation logic
   };
 
   // Estimate 2 lines worth of text (approximately 120-140 characters)
   const twoLinesLength = 120;
-  const truncatedContent = article.content.length > twoLinesLength ? article.content.substring(0, twoLinesLength) + "..." : article.content;
+  const truncatedContent = translatedContent.length > twoLinesLength ? translatedContent.substring(0, twoLinesLength) + "..." : translatedContent;
   const isVideo = article.imageUrl.includes('youtube.com') || article.imageUrl.includes('youtu.be');
 
   // Pause video when not in view
@@ -88,7 +100,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
             ref={iframeRef} 
             className="w-full h-full object-cover" 
             src={`${article.imageUrl}${article.imageUrl.includes('?') ? '&' : '?'}enablejsapi=1`} 
-            title={article.title} 
+            title={translatedTitle} 
             frameBorder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
             allowFullScreen 
@@ -105,7 +117,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
         {/* Category Badge */}
         <div className="absolute top-4 left-4 z-10">
           <span className="inline-block px-3 py-1 text-xs font-medium bg-primary text-primary-foreground rounded-full">
-            {article.category}
+            {translatedCategory}
           </span>
         </div>
 
@@ -115,7 +127,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
             <DropdownMenuTrigger asChild>
               <button className="flex items-center gap-1 px-3 py-1 text-xs font-medium bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors" onClick={e => e.stopPropagation()}>
                 <Languages size={14} />
-                {selectedLanguage}
+                {currentLanguage}
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-32">
@@ -123,7 +135,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
                 <DropdownMenuItem key={language} onClick={e => {
                   e.stopPropagation();
                   handleLanguageChange(language);
-                }} className={selectedLanguage === language ? "bg-accent" : ""}>
+                }} className={currentLanguage === language ? "bg-accent" : ""}>
                   {language}
                 </DropdownMenuItem>
               ))}
@@ -139,7 +151,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
           handleLike();
         }} className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${isLiked ? 'text-red-500 bg-red-100 dark:bg-red-900/30 scale-105' : 'text-muted-foreground hover:text-foreground hover:bg-accent'}`}>
           <Heart size={18} fill={isLiked ? "currentColor" : "none"} />
-          <span className="text-sm">Like</span>
+          <span className="text-sm">{likeText}</span>
         </button>
         
         <button onClick={e => {
@@ -147,7 +159,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
           handleShare();
         }} className="flex items-center gap-2 px-4 py-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors">
           <Share size={18} />
-          <span className="text-sm">Share</span>
+          <span className="text-sm">{shareText}</span>
         </button>
         
         <button onClick={e => {
@@ -155,7 +167,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
           setIsSaved(!isSaved);
         }} className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors ${isSaved ? 'text-blue-500 bg-blue-50 dark:bg-blue-950' : 'text-muted-foreground hover:text-foreground hover:bg-accent'}`}>
           <Bookmark size={18} fill={isSaved ? "currentColor" : "none"} />
-          <span className="text-sm">Save</span>
+          <span className="text-sm">{saveText}</span>
         </button>
       </div>
       
@@ -163,24 +175,24 @@ const NewsCard: React.FC<NewsCardProps> = ({
       <div className="h-1/2 w-full p-6 flex flex-col justify-between text-foreground">
         {/* Title */}
         <h1 className="text-xl md:text-2xl font-bold mb-3 leading-tight">
-          {article.title}
+          {translatedTitle}
         </h1>
         
         {/* Content */}
         <div className="flex-1 mx-0 px-0">
           <p className={`text-sm md:text-base text-muted-foreground mb-2 leading-relaxed ${!isExpanded ? 'line-clamp-2' : ''}`}>
-            {isExpanded ? article.content : truncatedContent}
+            {isExpanded ? translatedContent : truncatedContent}
           </p>
           
-          {article.content.length > twoLinesLength && (
+          {translatedContent.length > twoLinesLength && (
             <button onClick={e => {
               e.stopPropagation();
               setIsExpanded(!isExpanded);
             }} className="text-primary text-sm font-medium flex items-center gap-1 mb-2">
               {isExpanded ? (
-                <>Read Less <ChevronUp size={16} /></>
+                <>{readLessText} <ChevronUp size={16} /></>
               ) : (
-                <>Read More <ChevronDown size={16} /></>
+                <>{readMoreText} <ChevronDown size={16} /></>
               )}
             </button>
           )}
@@ -193,7 +205,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
             <span>•</span>
             <span>{formatDate(article.publishedAt)}</span>
             <span>•</span>
-            <span>{article.readTime} min read</span>
+            <span>{article.readTime} {minReadText}</span>
           </div>
         </div>
       </div>
