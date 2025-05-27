@@ -25,20 +25,22 @@ const Header: React.FC = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
-      <div className="flex items-center justify-center p-2 md:p-3 relative">
-        {/* Logo and Brand Name - Stacked Vertically */}
-        <div onClick={handleBrandDoubleClick} className="flex flex-col items-center space-y-1 cursor-pointer select-none">
-          <img alt="Brand Logo" className="w-8 h-8" src="https://cdn-icons-png.flaticon.com/128/1444/1444890.png" />
-          <h1 className="font-playfair text-lg md:text-xl font-bold text-foreground tracking-wide">
-            Times Global
-          </h1>
+      <div className="flex items-center justify-between p-2 md:p-3 relative">
+        {/* Logo and Brand Name - Stacked Vertically on Left */}
+        <div className="flex items-center space-x-3">
+          <div onClick={handleBrandDoubleClick} className="flex flex-col items-center space-y-1 cursor-pointer select-none">
+            <img alt="Brand Logo" className="w-8 h-8" src="https://cdn-icons-png.flaticon.com/128/1444/1444890.png" />
+            <h1 className="font-playfair text-lg md:text-xl font-bold text-foreground tracking-wide">
+              Times Global
+            </h1>
+          </div>
+          
+          {/* Verification Badge - positioned to the right of the stacked logo/name */}
+          <img alt="Verification Badge" src="https://cdn-icons-gif.flaticon.com/15747/15747340.gif" className="w-8 h-8" />
         </div>
         
-        {/* Verification Badge - positioned to the right of the stacked logo/name */}
-        <img alt="Verification Badge" src="https://cdn-icons-gif.flaticon.com/15747/15747340.gif" className="w-8 h-8 ml-3" />
-        
-        {/* Navigation - positioned absolutely to the right */}
-        <nav className="hidden md:flex items-center space-x-4 absolute right-3">
+        {/* Navigation - positioned on the right */}
+        <nav className="hidden md:flex items-center space-x-4">
           <a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-xs font-medium">
             Breaking
           </a>
@@ -54,7 +56,7 @@ const Header: React.FC = () => {
         </nav>
         
         {/* Mobile Menu Button */}
-        <div className="flex items-center space-x-2 absolute right-3 md:hidden">
+        <div className="flex items-center space-x-2 md:hidden">
           <button className="text-foreground p-1">
             
           </button>
