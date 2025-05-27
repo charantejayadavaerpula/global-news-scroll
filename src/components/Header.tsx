@@ -22,12 +22,11 @@ const Header: React.FC = () => {
   return <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
       <div className="flex items-center justify-between p-0 md:p-0 relative">
         {/* Logo and Brand Name - Stacked Vertically on Left */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-3 py-[5px] my-0 px-[5px]">
           <div onClick={handleBrandDoubleClick} className="flex flex-col items-center space-y-1 cursor-pointer select-none">
             <img alt="Brand Logo" src="https://cdn-icons-png.flaticon.com/128/1444/1444890.png" className="w-0 h-0" />
-            <h1 className="font-playfair text-lg md:text-xl font-bold text-foreground tracking-wide">
-              Times Global
-            </h1>
+            <h1 className="font-playfair text-lg md:text-xl font-bold text-foreground tracking-wide">NETIZEN
+          </h1>
           </div>
           
           {/* Verification Badge - positioned to the right of the stacked logo/name */}
